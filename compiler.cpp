@@ -1,6 +1,6 @@
 #include "globals.h"
 #include "compiler.h"
-#include "SysY.tab.h"
+#include "source.tab.h"
 
 int NDto1D(vector<int> &dimensions, vector<int> &index)
 {

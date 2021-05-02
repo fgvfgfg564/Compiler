@@ -3,20 +3,20 @@ YACC = bison
 CC = g++ -std=c++17 -Wno-deprecated-register -Wno-inconsistent-missing-override 
 OBJECT = main 
 
-main: SysY.tab.c lex.yy.c main.cpp
-	$(CC) SysY.tab.c lex.yy.c util.c compiler.cpp ast.cpp main.cpp ir.cpp -o main
+main: source.tab.c lex.yy.c main.cpp
+	$(CC) source.tab.c lex.yy.c util.c compiler.cpp ast.cpp main.cpp ir.cpp -o main
 
-main-gdb: SysY.tab.c lex.yy.c main.cpp
-	$(CC) -g SysY.tab.c lex.yy.c util.c compiler.cpp ast.cpp main.cpp ir.cpp -o main
+main-gdb: source.tab.c lex.yy.c main.cpp
+	$(CC) -g source.tab.c lex.yy.c util.c compiler.cpp ast.cpp main.cpp ir.cpp -o main
 
-parser: SysY.tab.o lex.yy.o parser.cpp
-	$(CC) SysY.tab.o lex.yy.o util.c ast.cpp parser.cpp -o parser
+parser: source.tab.o lex.yy.o parser.cpp
+	$(CC) source.tab.o lex.yy.o util.c ast.cpp parser.cpp -o parser
 
-SysY.tab.c SysY.tab.h: SysY.y
-	$(YACC) SysY.y -d
+source.tab.c source.tab.h: source.y
+	$(YACC) source.y -d
 
-lex.yy.c: Sysy.l
-	$(LEX) SysY.l
+lex.yy.c: source.l
+	$(LEX) source.l
 
 clean:
-	rm -f main lex.yy.* SysY.tab.* SysY.tab.o parser main 
+	rm -f main lex.yy.* source.tab.* source.tab.o parser main 
