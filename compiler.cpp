@@ -132,11 +132,11 @@ ValPtr EeyoreGenerator::generateOn(ConstInitValAST *ast)
 
 ValPtr EeyoreGenerator::generateOn(FunctionAST *ast)
 {
+	global = false;
 	if (ast->name() != "main")
 		currentFunc = prog.newFunc(ast->name(), ast->fParams().size());
 	else {
-		currentFunc = main;
-		prog.funcs.push_back(main);
+		prog.funcs.push_back(mainFunc);
 	}
 	assert(!hasReturnValue.find(ast->name()));
 	hasReturnValue.insert(ast->name(), ast->funcType() == INT);
@@ -149,7 +149,8 @@ ValPtr EeyoreGenerator::generateOn(FunctionAST *ast)
 	else
 		currentFunc->newInst(new Return(0));
 	outer();
-	currentFunc = NULL;
+	currentFunc = mainFunc;
+	global = true;
 	return NULL;
 }
 ValPtr EeyoreGenerator::generateOn(FuncFParamAST *ast)
@@ -267,8 +268,9 @@ ValPtr EeyoreGenerator::generateOn(BinaryExpAST *ast)
 		ValPtr opr1 = ast->opr1()->generateIR(*this);
 		LabelPtr fix = new Label(labelInd++), end = new Label(labelInd++);
 		currentFunc->newInst(new IfGoto(opr1, EE_EQ, new RightValue(0), fix));
+		recycleVar(opr1);
 		ValPtr opr2 = ast->opr2()->generateIR(*this);
-		recycleVar(opr1); recycleVar(opr2);
+		recycleVar(opr2);
 		ValPtr ptr = newVar();
 		currentFunc->newInst(new Assign(ptr, opr2));
 		currentFunc->newInst(new Goto(end));
@@ -280,8 +282,9 @@ ValPtr EeyoreGenerator::generateOn(BinaryExpAST *ast)
 		ValPtr opr1 = ast->opr1()->generateIR(*this);
 		LabelPtr fix = new Label(labelInd++), end = new Label(labelInd++);
 		currentFunc->newInst(new IfGoto(opr1, EE_EQ, new RightValue(1), fix));
+		recycleVar(opr1);
 		ValPtr opr2 = ast->opr2()->generateIR(*this);
-		recycleVar(opr1); recycleVar(opr2);
+		recycleVar(opr2);
 		ValPtr ptr = newVar();
 		currentFunc->newInst(new Assign(ptr, opr2));
 		currentFunc->newInst(new Goto(end));

@@ -12,10 +12,10 @@ class EeyoreGenerator
 {
 public:
 	EeyoreGenerator(ostream &out, bool debug_ = false): out_(out), symTable(),
-		varInd(0),
-		currentFunc(NULL), getReference(0), labelInd(0), maxTempVar(-1), isConst(0),
-		debug(debug_), main(new Function("main", 0))
+		varInd(0), getReference(0), labelInd(0), maxTempVar(-1), isConst(0),
+		debug(debug_), mainFunc(new Function("main", 0)), global(true)
 	{
+		currentFunc = mainFunc, 
 		_init_lib_funcs();
 	}
 
@@ -60,24 +60,16 @@ public:
 	}
 	void newDecl(ValPtr name, int len = 0)
 	{
-		if (currentFunc != NULL) currentFunc->newDecl(name, len);
+		if (!global) currentFunc->newDecl(name, len);
 		else prog.newDecl(name, len);
 	}
 	void newAssign(ValPtr name, ValPtr value)
 	{
-		if (currentFunc == NULL)
-			main -> newInst(new Assign(name, value));
-
-		else
-			currentFunc -> newInst(new Assign(name, value));
+		currentFunc -> newInst(new Assign(name, value));
 	}
 	void newAssign(ValPtr name, ValPtr ind, ValPtr value)
 	{
-		if (currentFunc == NULL)
-			main -> newInst(new AssignArray(name, ind, value));
-
-		else
-			currentFunc -> newInst(new AssignArray(name, ind, value));
+		currentFunc -> newInst(new AssignArray(name, ind, value));
 	}
 	ValPtr newVar()
 	{
@@ -130,12 +122,12 @@ private:
 	SGSet tempVar;
 
 	// useful parameters during compiling
-	Function *currentFunc, *main;
+	Function *currentFunc, *mainFunc;
 	ValPtr currentVar, arrayName, arrayInd;
 	vector<int> temp, dimensions;
 	vector<int> initDim, initCur;
 	int tempInt;
-	bool getReference;
+	bool getReference, global;
 	vector<LabelPtr> labelLoop, labelEnd;
 	bool isConst;
 	string constVarName;
