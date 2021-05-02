@@ -344,7 +344,6 @@ public:
 		out << "f_" << name << " [" << nFParam << "]\n";
 		indent ++;
 		for (auto u : decls) u->print(out);
-		out << '\n';
 		for (auto u : insts) u->print(out);
 		indent --;
 		out << "end f_" << name << '\n';

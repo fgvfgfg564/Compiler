@@ -57,7 +57,7 @@ ValPtr EeyoreGenerator::generateOn(ConstDefAST *ast)
 ValPtr EeyoreGenerator::generateOn(VarDefAST *ast)
 {
 	dimensions = readConstExpList(ast->dimensions());
-	ValPtr eeName = new RightValue(++varInd, EE_ORIGIN);
+	ValPtr eeName = new RightValue(varInd++, EE_ORIGIN);
 	symTable.insert(ast->name(), eeName);
 	arraySize.insert(ast->name(), dimensions);
 	if (dimensions.size() != 0) {
