@@ -2,7 +2,7 @@
 #include "globals.h"
 #include "util.h"
 #include "ast.h"
-#include "source.tab.h"
+#include "source.tab.hpp"
 char tokenString[MAXTOKENLEN+1];
 %}
 
