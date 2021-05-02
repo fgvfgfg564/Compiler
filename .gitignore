@@ -1,4 +1,3 @@
 test.*
 main.dSYM
-lex.yy.c
-*.tab.*
+source.*
