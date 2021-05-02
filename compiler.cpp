@@ -97,10 +97,12 @@ ValPtr EeyoreGenerator::generateOn(InitValAST *ast)
 			temp.push_back(i);
 			if (p >= l) return NULL;
 			InitValAST *son = (InitValAST *)ast->valList()[p];
-			if (son->value() == NULL)
+			if (son->value() == NULL) {
 				son->generateIR(*this);
+				p += 1;
+			}
 			else {
-				assert(p + remain <= dimensions[m]);
+				assert(p + remain <= l);
 				for (int i = 1; i < n - m; i++)temp.push_back(0);
 				int startp = NDto1D(dimensions, temp);
 				for (int i = 1; i < n - m; i++)temp.pop_back();

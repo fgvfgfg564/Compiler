@@ -12,7 +12,7 @@ class EeyoreGenerator
 {
 public:
 	EeyoreGenerator(ostream &out): out_(out), symTable(), varInd(0),
-		currentFunc(NULL), getReference(0), labelInd(0), maxTempVar(-1)
+		currentFunc(NULL), getReference(0), labelInd(0), maxTempVar(-1), isConst(0)
 	{
 		_init_lib_funcs();
 	}
