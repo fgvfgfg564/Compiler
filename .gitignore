@@ -1,3 +1,4 @@
 test.*
 main.dSYM
-source.*
+source.l
+source.y
