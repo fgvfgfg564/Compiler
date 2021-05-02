@@ -116,21 +116,23 @@ public:
 	}
 private:
 	ostream &out_;
+	Program prog;
+
+	// Variable and label informations
 	NestedTrie<ValPtr> symTable;
 	NestedTrie<vector<int> >arraySize;
 	NestedTrie<int *> constTable;
 	NestedTrie<bool> hasReturnValue;
-	int paramInd;
+	int paramInd, varInd, labelInd, maxTempVar;;
 	SGSet tempVar;
+
+	// useful parameters during compiling
 	Function *currentFunc;
 	ValPtr currentVar, arrayName, arrayInd;
-	Program prog;
-	int varInd, labelInd, maxTempVar;
 	vector<int> temp, dimensions;
 	int tempInt;
 	bool getReference;
 	vector<LabelPtr> labelLoop, labelEnd;
-
 	bool isConst;
 	string constVarName;
 };

@@ -224,9 +224,14 @@ ValPtr EeyoreGenerator::generateOn(ContinueAST *ast)
 }
 ValPtr EeyoreGenerator::generateOn(ReturnAST *ast)
 {
-	ValPtr temp = ast->value()->generateIR(*this);
-	recycleVar(temp);
-	currentFunc->newInst(new Return(temp));
+	if(ast->value()) {
+		ValPtr temp = ast->value()->generateIR(*this);
+		recycleVar(temp);
+		currentFunc->newInst(new Return(temp));
+	}
+	else {
+		currentFunc->newInst(new Return());
+	}
 	return NULL;
 }
 ValPtr EeyoreGenerator::generateOn(BinaryExpAST *ast)
