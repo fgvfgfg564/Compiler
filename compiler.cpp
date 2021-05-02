@@ -133,19 +133,22 @@ ValPtr EeyoreGenerator::generateOn(ConstInitValAST *ast)
 
 ValPtr EeyoreGenerator::generateOn(FunctionAST *ast)
 {
-	currentFunc = prog.newFunc(ast->name(), ast->fParams().size());
+	if (ast->name() != "main")
+		currentFunc = prog.newFunc(ast->name(), ast->fParams().size());
+	else {
+		currentFunc = main;
+		prog.funcs.push_back(main);
+	}
 	assert(!hasReturnValue.find(ast->name()));
 	hasReturnValue.insert(ast->name(), ast->funcType() == INT);
 	newEnvironment();
 	paramInd = 0;
 	for (auto u : ast->fParams()) u->generateIR(*this);
 	ast->block()->generateIR(*this);
-	if(ast->funcType() == VOID) {
+	if (ast->funcType() == VOID)
 		currentFunc->newInst(new Return());
-	}
-	else {
+	else
 		currentFunc->newInst(new Return(0));
-	}
 	outer();
 	currentFunc = NULL;
 	return NULL;

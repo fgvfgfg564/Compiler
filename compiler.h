@@ -11,9 +11,10 @@
 class EeyoreGenerator
 {
 public:
-	EeyoreGenerator(ostream &out, bool debug_=false): out_(out), symTable(), varInd(0),
+	EeyoreGenerator(ostream &out, bool debug_ = false): out_(out), symTable(),
+		varInd(0),
 		currentFunc(NULL), getReference(0), labelInd(0), maxTempVar(-1), isConst(0),
-		debug(debug_)
+		debug(debug_), main(new Function("main", 0))
 	{
 		_init_lib_funcs();
 	}
@@ -64,18 +65,18 @@ public:
 	}
 	void newAssign(ValPtr name, ValPtr value)
 	{
-		if (currentFunc == NULL) {
-			assert(value->type == EE_CONST);
-			prog.newInit(name, value->val);
-		} else
+		if (currentFunc == NULL)
+			main -> newInst(new Assign(name, value));
+
+		else
 			currentFunc -> newInst(new Assign(name, value));
 	}
 	void newAssign(ValPtr name, ValPtr ind, ValPtr value)
 	{
-		if (currentFunc == NULL) {
-			assert(value->type == EE_CONST && ind->type == EE_CONST);
-			prog.newInit(name, ind->val, value->val);
-		} else
+		if (currentFunc == NULL)
+			main -> newInst(new AssignArray(name, ind, value));
+
+		else
 			currentFunc -> newInst(new AssignArray(name, ind, value));
 	}
 	ValPtr newVar()
@@ -129,7 +130,7 @@ private:
 	SGSet tempVar;
 
 	// useful parameters during compiling
-	Function *currentFunc;
+	Function *currentFunc, *main;
 	ValPtr currentVar, arrayName, arrayInd;
 	vector<int> temp, dimensions;
 	vector<int> initDim, initCur;
