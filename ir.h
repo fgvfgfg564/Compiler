@@ -347,7 +347,7 @@ public:
 		out << '\n';
 		for (auto u : insts) u->print(out);
 		indent --;
-		out << "end " << name << '\n';
+		out << "end f_" << name << '\n';
 	}
 };
 

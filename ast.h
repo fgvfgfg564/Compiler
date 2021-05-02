@@ -54,11 +54,11 @@ class CompUnitAST: public BaseAST
 {
 public:
 	CompUnitAST(ASTList &nodes): nodeList_(nodes) {}
-	ASTList &nodeList()
+	ASTList &nodeList() override
 	{
 		return nodeList_;
 	}
-	void debug(int depth)
+	void debug(int depth) override
 	{
 		printTab(depth);
 		printf("<CompUnit>\n");
@@ -77,7 +77,7 @@ class ConstDeclAST: public BaseAST
 public:
 	ConstDeclAST(TokenType bType, ASTList &varList): bType_(bType),
 		varList_(varList) {}
-	ASTList &varList()
+	ASTList &varList() override
 	{
 		return varList_;
 	}
@@ -85,7 +85,7 @@ public:
 	{
 		return bType_;
 	}
-	void debug(int depth)
+	void debug(int depth) override
 	{
 		printTab(depth);
 		printf("<ConstDecl Type=%d>\n", bType_);
@@ -105,7 +105,7 @@ class VarDeclAST: public BaseAST
 public:
 	VarDeclAST(TokenType bType, ASTList &varList): bType_(bType),
 		varList_(varList) {}
-	ASTList &varList()
+	ASTList &varList() override
 	{
 		return varList_;
 	}
@@ -113,7 +113,7 @@ public:
 	{
 		return bType_;
 	}
-	void debug(int depth)
+	void debug(int depth) override
 	{
 		printTab(depth);
 		printf("<VarDecl Type=%d>\n", bType_);
@@ -133,11 +133,11 @@ class ConstDefAST: public BaseAST
 public:
 	ConstDefAST(string &name, ASTList &dimensions, ASTPtr &initValue):
 		name_(name), dimensions_(dimensions), initValue_(initValue) {}
-	string &name()
+	string &name() override
 	{
 		return name_;
 	}
-	ASTList &dimensions()
+	ASTList &dimensions() override
 	{
 		return dimensions_;
 	}
@@ -145,7 +145,7 @@ public:
 	{
 		return initValue_;
 	}
-	void debug(int depth)
+	void debug(int depth) override
 	{
 		printTab(depth);
 		cout << "<ConstDef name=" << name_ << ">\n";
@@ -170,11 +170,11 @@ class VarDefAST: public BaseAST
 public:
 	VarDefAST(string &name, ASTList &dimensions, ASTPtr initValue):
 		name_(name), dimensions_(dimensions), initValue_(initValue) {}
-	string &name()
+	string &name() override
 	{
 		return name_;
 	}
-	ASTList &dimensions()
+	ASTList &dimensions() override
 	{
 		return dimensions_;
 	}
@@ -182,7 +182,7 @@ public:
 	{
 		return initValue_;
 	}
-	void debug(int depth)
+	void debug(int depth) override
 	{
 		printTab(depth);
 		cout << "<VarDef name=" << name_ << ">\n";
@@ -210,11 +210,11 @@ public:
 	{
 		return value_;
 	}
-	ASTList &valList()
+	ASTList &valList() override
 	{
 		return valList_;
 	}
-	void debug(int depth)
+	void debug(int depth) override
 	{
 		printTab(depth);
 		printf("<InitVal>\n");
@@ -244,11 +244,11 @@ public:
 	{
 		return value_;
 	}
-	ASTList &valList()
+	ASTList &valList() override
 	{
 		return valList_;
 	}
-	void debug(int depth)
+	void debug(int depth) override
 	{
 		printTab(depth);
 		printf("<ConstInitVal>\n");
@@ -280,7 +280,7 @@ public:
 	{
 		return funcType_;
 	}
-	string &name()
+	string &name() override
 	{
 		return name_;
 	}
@@ -292,7 +292,7 @@ public:
 	{
 		return block_;
 	}
-	void debug(int depth)
+	void debug(int depth) override
 	{
 		printTab(depth);
 		printf("<Function>\n");
@@ -327,15 +327,15 @@ public:
 	{
 		return bType_;
 	}
-	string &name()
+	string &name() override
 	{
 		return name_;
 	}
-	ASTList &dimensions()
+	ASTList &dimensions() override
 	{
 		return dimensions_;
 	}
-	void debug (int depth)
+	void debug (int depth) override
 	{
 		printTab(depth);
 		printf("<FuncFParam>\n");
@@ -369,7 +369,7 @@ public:
 	{
 		return items_;
 	}
-	void debug (int depth)
+	void debug (int depth) override
 	{
 		printTab(depth);
 		printf("<Block>\n");
@@ -395,7 +395,7 @@ public:
 	{
 		return exp_;
 	}
-	void debug (int depth)
+	void debug (int depth) override
 	{
 		printTab(depth);
 		printf("<Assign>\n");
@@ -431,7 +431,7 @@ public:
 	{
 		return elseStmt_;
 	}
-	void debug (int depth)
+	void debug (int depth) override
 	{
 		printTab(depth);
 		printf("<If>\n");
@@ -466,7 +466,7 @@ public:
 	{
 		return items_;
 	}
-	void debug (int depth)
+	void debug (int depth) override
 	{
 		printTab(depth);
 		printf("<While>\n");
@@ -488,7 +488,7 @@ class BreakAST: public BaseAST
 {
 public:
 	BreakAST() {}
-	void debug (int depth)
+	void debug (int depth) override
 	{
 		printTab(depth);
 		printf("<Break>\n");
@@ -502,7 +502,7 @@ class ContinueAST: public BaseAST
 {
 public:
 	ContinueAST() {}
-	void debug (int depth)
+	void debug (int depth) override
 	{
 		printTab(depth);
 		printf("<Continue>\n");
@@ -520,7 +520,7 @@ public:
 	{
 		return value_;
 	}
-	void debug (int depth)
+	void debug (int depth) override
 	{
 		printTab(depth);
 		printf("<Return>\n");
@@ -554,7 +554,7 @@ public:
 	{
 		return opr2_;
 	}
-	void debug (int depth)
+	void debug (int depth) override
 	{
 		printTab(depth);
 		printf("<BinaryOp op=%d>\n", op_);
@@ -586,7 +586,7 @@ public:
 	{
 		return opr_;
 	}
-	void debug (int depth)
+	void debug (int depth) override
 	{
 		printTab(depth);
 		printf("<BinaryOp op=%d>\n", op_);
@@ -607,7 +607,7 @@ class FuncCallAST: public BaseAST
 public:
 	FuncCallAST(string &name, ASTList &args):
 		name_(name), args_(args) {}
-	string &name()
+	string &name() override
 	{
 		return name_;
 	}
@@ -615,7 +615,7 @@ public:
 	{
 		return args_;
 	}
-	void debug (int depth)
+	void debug (int depth) override
 	{
 		printTab(depth);
 		printf("<FuncCall>\n");
@@ -639,15 +639,15 @@ class LValAST: public BaseAST
 public:
 	LValAST(string &name, ASTList &dimensions): name_(name),
 		dimensions_(dimensions) {}
-	string &name()
+	string &name() override
 	{
 		return name_;
 	}
-	ASTList &dimensions()
+	ASTList &dimensions() override
 	{
 		return dimensions_;
 	}
-	void debug (int depth)
+	void debug (int depth) override
 	{
 		printTab(depth);
 		printf("<LVal>\n");
@@ -671,11 +671,11 @@ class IdAST: public BaseAST
 public:
 	IdAST(string &name): name_(name) {}
 	IdAST(char *name): name_(name) {}
-	string &name()
+	string &name() override
 	{
 		return name_;
 	}
-	void debug (int depth)
+	void debug (int depth) override
 	{
 		printTab(depth);
 		printf("<Id>\n");
@@ -697,7 +697,7 @@ public:
 	{
 		return value_;
 	}
-	void debug (int depth)
+	void debug (int depth) override
 	{
 		printTab(depth);
 		printf("<IntConst>\n");
@@ -719,7 +719,7 @@ public:
 	{
 		return bType_;
 	}
-	void debug(int depth) {}
+	void debug(int depth) override {}
 	ValPtr generateIR(EeyoreGenerator &gen) override;
 private:
 	TokenType bType_;
@@ -730,11 +730,11 @@ class ASTListAST: public BaseAST
 public:
 	ASTListAST(ASTList &astList): astList_(astList) {}
 	ASTListAST() {}
-	ASTList &astList()
+	ASTList &astList() override
 	{
 		return astList_;
 	}
-	void debug(int depth) {}
+	void debug(int depth) override {}
 private:
 	ASTList astList_;
 };
@@ -743,7 +743,7 @@ class DoNothingAST: public BaseAST
 {
 public:
 	DoNothingAST() {}
-	void debug(int depth) {}
+	void debug(int depth) override {}
 	ValPtr generateIR(EeyoreGenerator &gen) override
 	{
 		return NULL;

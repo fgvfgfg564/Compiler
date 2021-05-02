@@ -17,7 +17,6 @@ int NDto1D(vector<int> &dimensions, vector<int> &index)
 
 ValPtr EeyoreGenerator::generateOn(CompUnitAST *ast)
 {
-	ast->debug(0);
 	for (auto u : ast->nodeList()) u->generateIR(*this);
 	prog.print(out_);
 	assert(tempVar.isClean());

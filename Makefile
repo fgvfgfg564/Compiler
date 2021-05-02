@@ -1,6 +1,6 @@
 LEX = flex
 YACC = bison
-CC = g++ -std=c++17 -Wno-deprecated-register -Wno-inconsistent-missing-override
+CC = g++ -std=c++17 -wno-deprecated-register -wno-inconsistent-missing-override
 OBJECT = main 
 
 main: source.tab.c lex.yy.c main.cpp
