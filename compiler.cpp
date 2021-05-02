@@ -400,20 +400,31 @@ ValPtr EeyoreGenerator::generateOn(ASTList list)
 	int result = 0;
 	for (int i = n - 1; i >= 0; i--) {
 		ValPtr curInd = list[i]->generateIR(*this);
+		recycleVar(curInd);
 		if (curInd->type == EE_CONST && isConst)
 			result = result + wgt * curInd->val;
 		else {
-			if (wgt != 1)
-				currentFunc->newInst(new BinaryAssign(curInd, curInd, EE_MUL,
+			ValPtr mul;
+			if (wgt != 1) {
+				mul = newVar();
+				currentFunc->newInst(new BinaryAssign(mul, curInd, EE_MUL,
 													  new RightValue(wgt)));
+			} else mul = curInd;
+
 			if (isConst) {
-				if (result != 0) currentFunc->newInst(new BinaryAssign(curInd, curInd, EE_ADD,
-														  new RightValue(result)));
 				isConst = false;
-				ptr = curInd;
+				if (result != 0) {
+					recycleVar(mul);
+					ptr = newVar();
+					currentFunc->newInst(new BinaryAssign(ptr, mul, EE_ADD,
+														  new RightValue(result)));
+				} else ptr = mul;
 			} else {
-				currentFunc->newInst(new BinaryAssign(ptr, ptr, EE_ADD, curInd));
-				recycleVar(curInd);
+				recycleVar(mul);
+				recycleVar(ptr);
+				ValPtr temp = newVar();
+				currentFunc->newInst(new BinaryAssign(temp, ptr, EE_ADD, mul));
+				ptr = temp;
 			}
 		}
 		wgt *= dimensions[i];

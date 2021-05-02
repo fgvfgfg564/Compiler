@@ -113,8 +113,8 @@ public:
 		hasReturnValue.insert("putint", false);
 		hasReturnValue.insert("putch", false);
 		hasReturnValue.insert("putarray", false);
-		hasReturnValue.insert("_sysy_starttime", true);
-		hasReturnValue.insert("_sysy_stoptime", true);
+		hasReturnValue.insert("_sysy_starttime", false);
+		hasReturnValue.insert("_sysy_stoptime", false);
 	}
 private:
 	ostream &out_;
