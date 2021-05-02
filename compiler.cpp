@@ -140,6 +140,12 @@ ValPtr EeyoreGenerator::generateOn(FunctionAST *ast)
 	paramInd = 0;
 	for (auto u : ast->fParams()) u->generateIR(*this);
 	ast->block()->generateIR(*this);
+	if(ast->funcType() == VOID) {
+		currentFunc->newInst(new Return());
+	}
+	else {
+		currentFunc->newInst(new Return(0));
+	}
 	outer();
 	currentFunc = NULL;
 	return NULL;

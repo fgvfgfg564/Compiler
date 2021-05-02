@@ -309,6 +309,7 @@ class Return: public BaseIR
 public:
 	ValPtr val;
 	Return(ValPtr val_): val(val_) {}
+	Return(int val_): val(new RightValue(val_)) {}
 	Return(): val(NULL) {}
 	void print(ostream &out) const override
 	{
