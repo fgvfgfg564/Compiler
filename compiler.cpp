@@ -171,14 +171,22 @@ ValPtr EeyoreGenerator::generateOn(AssignStatAST *ast)
 }
 ValPtr EeyoreGenerator::generateOn(IfStatAST *ast)
 {
-	LabelPtr labelThen = new Label(labelInd++), labelEnd = new Label(labelInd++);
 	ValPtr cond = ast->cond()->generateIR(*this);
-	currentFunc->newInst(new IfGoto(cond, EE_EQ, new RightValue(1), labelThen));
-	ast->elseStmt()->generateIR(*this);
-	currentFunc->newInst(new Goto(labelEnd));
-	currentFunc->newInst(labelThen);
-	ast->thenStmt()->generateIR(*this);
-	currentFunc->newInst(labelEnd);
+	if(ast->elseStmt()) {
+		LabelPtr labelElse = new Label(labelInd++), labelEnd = new Label(labelInd++);
+		currentFunc->newInst(new IfGoto(cond, EE_EQ, new RightValue(0), labelElse));
+		ast->thenStmt()->generateIR(*this);
+		currentFunc->newInst(new Goto(labelEnd));
+		currentFunc->newInst(labelElse);
+		ast->elseStmt()->generateIR(*this);
+		currentFunc->newInst(labelEnd);
+	}
+	else {
+		LabelPtr labelEnd = new Label(labelInd++);
+		currentFunc->newInst(new IfGoto(cond, EE_EQ, new RightValue(0), labelEnd));
+		ast->thenStmt()->generateIR(*this);
+		currentFunc->newInst(labelEnd);
+	}
 	recycleVar(cond);
 	return NULL;
 }
@@ -200,12 +208,12 @@ ValPtr EeyoreGenerator::generateOn(WhileStatAST *ast)
 }
 ValPtr EeyoreGenerator::generateOn(BreakAST *ast)
 {
-	currentFunc->newInst(labelEnd.back());
+	currentFunc->newInst(new Goto(labelEnd.back()));
 	return NULL;
 }
 ValPtr EeyoreGenerator::generateOn(ContinueAST *ast)
 {
-	currentFunc->newInst(labelLoop.back());
+	currentFunc->newInst(new Goto(labelLoop.back()));
 	return NULL;
 }
 ValPtr EeyoreGenerator::generateOn(ReturnAST *ast)
