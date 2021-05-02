@@ -104,11 +104,10 @@ ValPtr EeyoreGenerator::generateOn(InitValAST *ast)
 				son->generateIR(*this);
 				p += 1;
 			} else {
-				assert(p + remain <= l);
 				for (int i = 1; i < n - m; i++)initCur.push_back(0);
 				int startp = NDto1D(initDim, initCur);
 				for (int i = 1; i < n - m; i++)initCur.pop_back();
-				for (int j = p; j < p + remain; j++) {
+				for (int j = p; j < p + remain && j < l; j++) {
 					ValPtr val = ((InitValAST *)(ast->valList()[j]))->value()->generateIR(*this);
 					int ind = startp + j - p;
 					newAssign(currentVar, new RightValue(ind * 4), val);
