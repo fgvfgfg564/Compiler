@@ -400,7 +400,6 @@ ValPtr EeyoreGenerator::generateOn(ASTList list)
 	int result = 0;
 	for (int i = n - 1; i >= 0; i--) {
 		ValPtr curInd = list[i]->generateIR(*this);
-		recycleVar(curInd);
 		if (curInd->type == EE_CONST && isConst)
 			result = result + wgt * curInd->val;
 		else {
@@ -409,6 +408,7 @@ ValPtr EeyoreGenerator::generateOn(ASTList list)
 				mul = newVar();
 				currentFunc->newInst(new BinaryAssign(mul, curInd, EE_MUL,
 													  new RightValue(wgt)));
+				recycleVar(curInd);
 			} else mul = curInd;
 
 			if (isConst) {
