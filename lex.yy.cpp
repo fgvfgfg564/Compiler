@@ -1999,6 +1999,5 @@ int calc(const char *str, int k){
 }
 
 int yywrap(void) {
-	puts("End of the file");
 	return 1;
 }

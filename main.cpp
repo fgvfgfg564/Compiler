@@ -19,7 +19,6 @@ int main(int argc, char *argv[])
 			case 'D': debug = true; break;
 		}
 	}
-	cout << "compiling file: " << inFile << '\n';
 	FILE *fin = fopen(inFile, "r");
 	ofstream newFile(outFile);
 	if (fin == NULL) {
