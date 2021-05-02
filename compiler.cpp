@@ -97,8 +97,8 @@ ValPtr EeyoreGenerator::generateOn(InitValAST *ast)
 		int remain = 1;
 		for (int i = m + 1; i < n; i++)remain *= initDim[i];
 		for (int i = 0; i < initDim[m]; i++) {
-			initCur.push_back(i);
 			if (p >= l) return NULL;
+			initCur.push_back(i);
 			InitValAST *son = (InitValAST *)ast->valList()[p];
 			if (son->value() == NULL) {
 				son->generateIR(*this);
