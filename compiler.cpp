@@ -306,7 +306,6 @@ ValPtr EeyoreGenerator::generateOn(BinaryExpAST *ast)
 ValPtr EeyoreGenerator::generateOn(UnaryExpAST *ast)
 {
 	ValPtr opr = ast->opr()->generateIR(*this);
-	recycleVar(opr);
 	EE_Op op;
 	switch (ast->op()) {
 		case POSITIVE: return opr;
@@ -316,6 +315,7 @@ ValPtr EeyoreGenerator::generateOn(UnaryExpAST *ast)
 	if (opr->type == EE_CONST)
 		return new RightValue(eval(op, opr->val));
 	else {
+		recycleVar(opr);
 		ValPtr ptr = newVar();
 		currentFunc->newInst(new UnaryAssign(ptr, op, opr));
 		return ptr;
