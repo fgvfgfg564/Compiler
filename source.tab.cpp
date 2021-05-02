@@ -515,15 +515,15 @@ static const yytype_int8 yyrhs[] =
 static const yytype_uint16 yyrline[] =
 {
        0,    19,    19,    22,    23,    24,    30,    36,    38,    39,
-      41,    46,    51,    57,    62,    67,    69,    74,    75,    81,
-      86,    92,    94,    99,   105,   106,   108,   113,   114,   120,
-     125,   132,   137,   143,   148,   155,   160,   166,   171,   180,
-     182,   183,   189,   190,   192,   193,   194,   196,   197,   198,
-     200,   201,   203,   205,   207,   209,   210,   211,   212,   213,
-     214,   215,   216,   219,   221,   223,   225,   226,   232,   233,
-     234,   236,   237,   238,   243,   244,   245,   247,   252,   258,
-     259,   260,   261,   263,   264,   265,   267,   268,   269,   270,
-     271,   273,   274,   275,   277,   278,   280,   281,   283,   285
+      41,    46,    51,    57,    63,    68,    70,    75,    76,    82,
+      87,    93,    95,   100,   106,   107,   109,   114,   115,   121,
+     126,   133,   138,   144,   149,   156,   161,   167,   172,   181,
+     183,   184,   190,   191,   193,   194,   195,   197,   198,   199,
+     201,   202,   204,   206,   208,   210,   211,   212,   213,   214,
+     215,   216,   217,   220,   222,   224,   226,   227,   233,   234,
+     235,   237,   238,   239,   244,   245,   246,   248,   253,   259,
+     260,   261,   262,   264,   265,   266,   268,   269,   270,   271,
+     272,   274,   275,   276,   278,   279,   281,   282,   284,   286
 };
 #endif
 
@@ -1626,19 +1626,20 @@ yyreduce:
 #line 52 "source.y"
     {
 						(yyval) = (yyvsp[(1) - (3)]);
-						(yyval)->astList().push_back((yyvsp[(2) - (3)]));
+						(yyval)->astList().push_back((yyvsp[(3) - (3)]));
 					;}
     break;
 
   case 13:
 #line 58 "source.y"
     {
+						puts("constdef");
 						(yyval)=new ConstDefAST((yyvsp[(1) - (4)])->name(), (yyvsp[(2) - (4)])->astList(), (yyvsp[(4) - (4)]));
 					;}
     break;
 
   case 14:
-#line 63 "source.y"
+#line 64 "source.y"
     {
 						(yyval) = (yyvsp[(1) - (4)]);
 						(yyval)->astList().push_back((yyvsp[(3) - (4)]));
@@ -1646,12 +1647,12 @@ yyreduce:
     break;
 
   case 15:
-#line 67 "source.y"
+#line 68 "source.y"
     {(yyval)=new ASTListAST();;}
     break;
 
   case 16:
-#line 70 "source.y"
+#line 71 "source.y"
     {
 						ASTList t;
 						(yyval) = new ConstInitValAST((yyvsp[(1) - (1)]), t);
@@ -1659,12 +1660,12 @@ yyreduce:
     break;
 
   case 17:
-#line 74 "source.y"
+#line 75 "source.y"
     {(yyval) = new ConstInitValAST(NULL, (yyvsp[(2) - (3)])->astList());;}
     break;
 
   case 18:
-#line 76 "source.y"
+#line 77 "source.y"
     {
 						ASTList t;
 						(yyval) = new ConstInitValAST(NULL, t);
@@ -1672,7 +1673,7 @@ yyreduce:
     break;
 
   case 19:
-#line 82 "source.y"
+#line 83 "source.y"
     {
 						(yyval) = new ASTListAST();
 						(yyval)->astList().push_back((yyvsp[(1) - (1)]));
@@ -1680,7 +1681,7 @@ yyreduce:
     break;
 
   case 20:
-#line 87 "source.y"
+#line 88 "source.y"
     {
 						(yyval) = (yyvsp[(1) - (3)]);
 						(yyval)->astList().push_back((yyvsp[(3) - (3)]));
@@ -1688,12 +1689,12 @@ yyreduce:
     break;
 
   case 21:
-#line 92 "source.y"
+#line 93 "source.y"
     {(yyval) = new VarDeclAST(INT, (yyvsp[(2) - (3)])->astList());;}
     break;
 
   case 22:
-#line 95 "source.y"
+#line 96 "source.y"
     {
 						ASTList t = {(yyvsp[(1) - (1)])};
 						(yyval) = new ASTListAST(t);
@@ -1701,7 +1702,7 @@ yyreduce:
     break;
 
   case 23:
-#line 100 "source.y"
+#line 101 "source.y"
     {
 						(yyval) = (yyvsp[(1) - (3)]);
 						(yyval)->astList().push_back((yyvsp[(3) - (3)]));
@@ -1709,17 +1710,17 @@ yyreduce:
     break;
 
   case 24:
-#line 105 "source.y"
+#line 106 "source.y"
     {(yyval) = new VarDefAST((yyvsp[(1) - (4)])->name(), (yyvsp[(2) - (4)])->astList(), (yyvsp[(4) - (4)]));;}
     break;
 
   case 25:
-#line 106 "source.y"
+#line 107 "source.y"
     {(yyval) = new VarDefAST((yyvsp[(1) - (2)])->name(), (yyvsp[(2) - (2)])->astList(), NULL);;}
     break;
 
   case 26:
-#line 109 "source.y"
+#line 110 "source.y"
     {
 						ASTList t;
 						(yyval) = new InitValAST((yyvsp[(1) - (1)]), t);
@@ -1727,12 +1728,12 @@ yyreduce:
     break;
 
   case 27:
-#line 113 "source.y"
+#line 114 "source.y"
     {(yyval) = new InitValAST(NULL, (yyvsp[(2) - (3)])->astList());;}
     break;
 
   case 28:
-#line 115 "source.y"
+#line 116 "source.y"
     {
 						ASTList t;
 						(yyval) = new InitValAST(NULL, t);
@@ -1740,7 +1741,7 @@ yyreduce:
     break;
 
   case 29:
-#line 121 "source.y"
+#line 122 "source.y"
     {
 						(yyval) = new ASTListAST();
 						(yyval)->astList().push_back((yyvsp[(1) - (1)]));
@@ -1748,7 +1749,7 @@ yyreduce:
     break;
 
   case 30:
-#line 126 "source.y"
+#line 127 "source.y"
     {
 						(yyval) = (yyvsp[(1) - (3)]); 
 						(yyval)->astList().push_back((yyvsp[(3) - (3)]));
@@ -1756,7 +1757,7 @@ yyreduce:
     break;
 
   case 31:
-#line 133 "source.y"
+#line 134 "source.y"
     {
 						(yyval) = new FunctionAST(VOID, (yyvsp[(2) - (6)])->name(), 
 							(yyvsp[(4) - (6)])->astList(), (yyvsp[(6) - (6)]));
@@ -1764,7 +1765,7 @@ yyreduce:
     break;
 
   case 32:
-#line 138 "source.y"
+#line 139 "source.y"
     {
 						ASTList t;
 						(yyval) = new FunctionAST(VOID, (yyvsp[(2) - (5)])->name(), 
@@ -1773,7 +1774,7 @@ yyreduce:
     break;
 
   case 33:
-#line 144 "source.y"
+#line 145 "source.y"
     {
 						(yyval) = new FunctionAST(INT, (yyvsp[(2) - (6)])->name(), 
 							(yyvsp[(4) - (6)])->astList(), (yyvsp[(6) - (6)]));
@@ -1781,7 +1782,7 @@ yyreduce:
     break;
 
   case 34:
-#line 149 "source.y"
+#line 150 "source.y"
     {
 						ASTList t;
 						(yyval) = new FunctionAST(INT, (yyvsp[(2) - (5)])->name(), 
@@ -1790,7 +1791,7 @@ yyreduce:
     break;
 
   case 35:
-#line 156 "source.y"
+#line 157 "source.y"
     {
 						ASTList t = {(yyvsp[(1) - (1)])};
 						(yyval) = new ASTListAST(t);
@@ -1798,7 +1799,7 @@ yyreduce:
     break;
 
   case 36:
-#line 161 "source.y"
+#line 162 "source.y"
     {
 						(yyval) = (yyvsp[(1) - (3)]);
 						(yyval)->astList().push_back((yyvsp[(3) - (3)]));
@@ -1806,7 +1807,7 @@ yyreduce:
     break;
 
   case 37:
-#line 167 "source.y"
+#line 168 "source.y"
     {
 						ASTList t = {NULL};
 						(yyval) = new FuncFParamAST(INT, (yyvsp[(2) - (2)])->name(), t);
@@ -1814,7 +1815,7 @@ yyreduce:
     break;
 
   case 38:
-#line 171 "source.y"
+#line 172 "source.y"
     {
 					ASTList t = {NULL};
 					(yyval) = new FuncFParamAST(INT, (yyvsp[(2) - (5)])->name(), t);
@@ -1825,17 +1826,17 @@ yyreduce:
     break;
 
   case 39:
-#line 180 "source.y"
+#line 181 "source.y"
     {(yyval)=new BlockAST((yyvsp[(2) - (3)])->astList());;}
     break;
 
   case 40:
-#line 182 "source.y"
+#line 183 "source.y"
     {(yyval)=new ASTListAST();;}
     break;
 
   case 41:
-#line 184 "source.y"
+#line 185 "source.y"
     {
 						(yyval) = (yyvsp[(1) - (2)]);
 						(yyval)->astList().push_back((yyvsp[(2) - (2)]));
@@ -1843,132 +1844,132 @@ yyreduce:
     break;
 
   case 42:
-#line 189 "source.y"
-    {(yyval)=(yyvsp[(1) - (1)]);;}
-    break;
-
-  case 43:
 #line 190 "source.y"
     {(yyval)=(yyvsp[(1) - (1)]);;}
     break;
 
-  case 44:
-#line 192 "source.y"
+  case 43:
+#line 191 "source.y"
     {(yyval)=(yyvsp[(1) - (1)]);;}
     break;
 
-  case 45:
+  case 44:
 #line 193 "source.y"
     {(yyval)=(yyvsp[(1) - (1)]);;}
     break;
 
-  case 46:
+  case 45:
 #line 194 "source.y"
     {(yyval)=(yyvsp[(1) - (1)]);;}
     break;
 
-  case 47:
-#line 196 "source.y"
+  case 46:
+#line 195 "source.y"
     {(yyval)=(yyvsp[(1) - (1)]);;}
     break;
 
-  case 48:
+  case 47:
 #line 197 "source.y"
     {(yyval)=(yyvsp[(1) - (1)]);;}
     break;
 
-  case 49:
+  case 48:
 #line 198 "source.y"
     {(yyval)=(yyvsp[(1) - (1)]);;}
     break;
 
+  case 49:
+#line 199 "source.y"
+    {(yyval)=(yyvsp[(1) - (1)]);;}
+    break;
+
   case 50:
-#line 200 "source.y"
+#line 201 "source.y"
     {(yyval) = new IfStatAST((yyvsp[(3) - (5)]), (yyvsp[(5) - (5)]), NULL);;}
     break;
 
   case 51:
-#line 201 "source.y"
+#line 202 "source.y"
     {(yyval) = new IfStatAST((yyvsp[(3) - (7)]), (yyvsp[(5) - (7)]), (yyvsp[(7) - (7)]));;}
     break;
 
   case 52:
-#line 203 "source.y"
+#line 204 "source.y"
     {(yyval) = new IfStatAST((yyvsp[(3) - (7)]), (yyvsp[(5) - (7)]), (yyvsp[(7) - (7)]));;}
     break;
 
   case 53:
-#line 205 "source.y"
+#line 206 "source.y"
     {(yyval) = new WhileStatAST((yyvsp[(3) - (5)]), (yyvsp[(5) - (5)]));;}
     break;
 
   case 54:
-#line 207 "source.y"
+#line 208 "source.y"
     {(yyval) = new WhileStatAST((yyvsp[(3) - (5)]), (yyvsp[(5) - (5)]));;}
     break;
 
   case 55:
-#line 209 "source.y"
+#line 210 "source.y"
     {(yyval)=new AssignStatAST((yyvsp[(1) - (4)]), (yyvsp[(3) - (4)]));;}
     break;
 
   case 56:
-#line 210 "source.y"
+#line 211 "source.y"
     {(yyval) = new DoNothingAST();;}
     break;
 
   case 57:
-#line 211 "source.y"
+#line 212 "source.y"
     {(yyval) = (yyvsp[(1) - (2)]);;}
     break;
 
   case 58:
-#line 212 "source.y"
+#line 213 "source.y"
     {(yyval)=(yyvsp[(1) - (1)]);;}
     break;
 
   case 59:
-#line 213 "source.y"
+#line 214 "source.y"
     {(yyval) = new BreakAST();;}
     break;
 
   case 60:
-#line 214 "source.y"
+#line 215 "source.y"
     {(yyval) = new ContinueAST();;}
     break;
 
   case 61:
-#line 215 "source.y"
+#line 216 "source.y"
     {(yyval) = new ReturnAST(NULL);;}
     break;
 
   case 62:
-#line 216 "source.y"
+#line 217 "source.y"
     {(yyval) = new ReturnAST((yyvsp[(2) - (3)]));;}
     break;
 
   case 63:
-#line 219 "source.y"
+#line 220 "source.y"
     {(yyval) = (yyvsp[(1) - (1)]);;}
     break;
 
   case 64:
-#line 221 "source.y"
+#line 222 "source.y"
     {(yyval) = (yyvsp[(1) - (1)]);;}
     break;
 
   case 65:
-#line 223 "source.y"
+#line 224 "source.y"
     {(yyval) = new LValAST((yyvsp[(1) - (2)])->name(), (yyvsp[(2) - (2)])->astList());;}
     break;
 
   case 66:
-#line 225 "source.y"
+#line 226 "source.y"
     {(yyval) = new ASTListAST();;}
     break;
 
   case 67:
-#line 227 "source.y"
+#line 228 "source.y"
     {
 						(yyval) = (yyvsp[(1) - (4)]);
 						(yyval)->astList().push_back((yyvsp[(3) - (4)]));
@@ -1976,32 +1977,32 @@ yyreduce:
     break;
 
   case 68:
-#line 232 "source.y"
+#line 233 "source.y"
     {(yyval) = (yyvsp[(2) - (3)]);;}
     break;
 
   case 69:
-#line 233 "source.y"
-    {(yyval) = (yyvsp[(1) - (1)]);;}
-    break;
-
-  case 70:
 #line 234 "source.y"
     {(yyval) = (yyvsp[(1) - (1)]);;}
     break;
 
+  case 70:
+#line 235 "source.y"
+    {(yyval) = (yyvsp[(1) - (1)]);;}
+    break;
+
   case 71:
-#line 236 "source.y"
+#line 237 "source.y"
     {(yyval)=(yyvsp[(1) - (1)]);;}
     break;
 
   case 72:
-#line 237 "source.y"
+#line 238 "source.y"
     {(yyval) = new FuncCallAST((yyvsp[(1) - (4)])->name(), (yyvsp[(3) - (4)])->astList());;}
     break;
 
   case 73:
-#line 239 "source.y"
+#line 240 "source.y"
     {
 						ASTList t;
 						(yyval) = new FuncCallAST((yyvsp[(1) - (3)])->name(), t);
@@ -2009,22 +2010,22 @@ yyreduce:
     break;
 
   case 74:
-#line 243 "source.y"
+#line 244 "source.y"
     {(yyval) = new UnaryExpAST(POSITIVE, (yyvsp[(2) - (2)]));;}
     break;
 
   case 75:
-#line 244 "source.y"
+#line 245 "source.y"
     {(yyval) = new UnaryExpAST(NEGATIVE, (yyvsp[(2) - (2)]));;}
     break;
 
   case 76:
-#line 245 "source.y"
+#line 246 "source.y"
     {(yyval) = new UnaryExpAST(NOT, (yyvsp[(2) - (2)]));;}
     break;
 
   case 77:
-#line 248 "source.y"
+#line 249 "source.y"
     {
 						ASTList t = {(yyvsp[(1) - (1)])};
 						(yyval) = new ASTListAST(t);
@@ -2032,7 +2033,7 @@ yyreduce:
     break;
 
   case 78:
-#line 253 "source.y"
+#line 254 "source.y"
     {
 						(yyval) = (yyvsp[(1) - (3)]);
 						(yyval)->astList().push_back((yyvsp[(3) - (3)]));
@@ -2040,113 +2041,113 @@ yyreduce:
     break;
 
   case 79:
-#line 258 "source.y"
+#line 259 "source.y"
     {(yyval)=(yyvsp[(1) - (1)]);;}
     break;
 
   case 80:
-#line 259 "source.y"
+#line 260 "source.y"
     {(yyval) = new BinaryExpAST(MUL, (yyvsp[(1) - (3)]), (yyvsp[(3) - (3)]));;}
     break;
 
   case 81:
-#line 260 "source.y"
+#line 261 "source.y"
     {(yyval) = new BinaryExpAST(DIV, (yyvsp[(1) - (3)]), (yyvsp[(3) - (3)]));;}
     break;
 
   case 82:
-#line 261 "source.y"
+#line 262 "source.y"
     {(yyval) = new BinaryExpAST(MOD, (yyvsp[(1) - (3)]), (yyvsp[(3) - (3)]));;}
     break;
 
   case 83:
-#line 263 "source.y"
+#line 264 "source.y"
     {(yyval)=(yyvsp[(1) - (1)]);;}
     break;
 
   case 84:
-#line 264 "source.y"
+#line 265 "source.y"
     {(yyval) = new BinaryExpAST(ADD, (yyvsp[(1) - (3)]), (yyvsp[(3) - (3)]));;}
     break;
 
   case 85:
-#line 265 "source.y"
+#line 266 "source.y"
     {(yyval) = new BinaryExpAST(SUB, (yyvsp[(1) - (3)]), (yyvsp[(3) - (3)]));;}
     break;
 
   case 86:
-#line 267 "source.y"
+#line 268 "source.y"
     {(yyval)=(yyvsp[(1) - (1)]);;}
     break;
 
   case 87:
-#line 268 "source.y"
+#line 269 "source.y"
     {(yyval) = new BinaryExpAST(GT, (yyvsp[(1) - (3)]), (yyvsp[(3) - (3)]));;}
     break;
 
   case 88:
-#line 269 "source.y"
+#line 270 "source.y"
     {(yyval) = new BinaryExpAST(LT, (yyvsp[(1) - (3)]), (yyvsp[(3) - (3)]));;}
     break;
 
   case 89:
-#line 270 "source.y"
+#line 271 "source.y"
     {(yyval) = new BinaryExpAST(GE, (yyvsp[(1) - (3)]), (yyvsp[(3) - (3)]));;}
     break;
 
   case 90:
-#line 271 "source.y"
+#line 272 "source.y"
     {(yyval) = new BinaryExpAST(LE, (yyvsp[(1) - (3)]), (yyvsp[(3) - (3)]));;}
     break;
 
   case 91:
-#line 273 "source.y"
+#line 274 "source.y"
     {(yyval)=(yyvsp[(1) - (1)]);;}
     break;
 
   case 92:
-#line 274 "source.y"
+#line 275 "source.y"
     {(yyval) = new BinaryExpAST(EQ, (yyvsp[(1) - (3)]), (yyvsp[(3) - (3)]));;}
     break;
 
   case 93:
-#line 275 "source.y"
+#line 276 "source.y"
     {(yyval) = new BinaryExpAST(NEQ, (yyvsp[(1) - (3)]), (yyvsp[(3) - (3)]));;}
     break;
 
   case 94:
-#line 277 "source.y"
+#line 278 "source.y"
     {(yyval)=(yyvsp[(1) - (1)]);;}
     break;
 
   case 95:
-#line 278 "source.y"
+#line 279 "source.y"
     {(yyval) = new BinaryExpAST(AND, (yyvsp[(1) - (3)]), (yyvsp[(3) - (3)]));;}
     break;
 
   case 96:
-#line 280 "source.y"
+#line 281 "source.y"
     {(yyval)=(yyvsp[(1) - (1)]);;}
     break;
 
   case 97:
-#line 281 "source.y"
+#line 282 "source.y"
     {(yyval) = new BinaryExpAST(OR, (yyvsp[(1) - (3)]), (yyvsp[(3) - (3)]));;}
     break;
 
   case 98:
-#line 283 "source.y"
+#line 284 "source.y"
     {(yyval)=(yyvsp[(1) - (1)]);;}
     break;
 
   case 99:
-#line 285 "source.y"
+#line 286 "source.y"
     {yyerror("Unexpected Token!");;}
     break;
 
 
 /* Line 1267 of yacc.c.  */
-#line 2150 "source.tab.cpp"
+#line 2151 "source.tab.cpp"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
@@ -2360,7 +2361,7 @@ yyreturn:
 }
 
 
-#line 288 "source.y"
+#line 289 "source.y"
 
 
 ASTPtr parse()
