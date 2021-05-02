@@ -17,6 +17,7 @@ int NDto1D(vector<int> &dimensions, vector<int> &index)
 
 void EeyoreGenerator::compile(BaseAST *ast)
 {
+	if (debug) ast->debug(0);
 	ast->generateIR(*this);
 	prog.print(out_);
 	assert(tempVar.isClean());
@@ -63,49 +64,50 @@ ValPtr EeyoreGenerator::generateOn(ConstDefAST *ast)
 }
 ValPtr EeyoreGenerator::generateOn(VarDefAST *ast)
 {
-	dimensions = readConstExpList(ast->dimensions());
+	initDim = readConstExpList(ast->dimensions());
 	ValPtr eeName = new RightValue(varInd++, EE_ORIGIN);
 	symTable.insert(ast->name(), eeName);
-	arraySize.insert(ast->name(), dimensions);
-	if (dimensions.size() != 0) {
+	arraySize.insert(ast->name(), initDim);
+	if (initDim.size() != 0) {
 		int size = 4;
-		for (auto u : dimensions) size *= u;
+		for (auto u : initDim) size *= u;
 		newDecl(eeName, size);
 	} else newDecl(eeName);
-	temp.clear();
+	initCur.clear();
 	currentVar = eeName;
 	if (ast->initValue())ast->initValue()->generateIR(*this);
 	return NULL;
 }
 ValPtr EeyoreGenerator::generateOn(InitValAST *ast)
 {
-	int n = dimensions.size(), m = temp.size();
+	int n = initDim.size(), m = initCur.size();
 	if (ast->value() != NULL) {
 		assert(n == m);
 		ValPtr val = ast->value()->generateIR(*this);
-		ValPtr ind = new RightValue(NDto1D(dimensions, temp));
-		if (n != 0)newAssign(currentVar, ind, val);
-		else
+		assert(initDim.size() == initCur.size());
+		if (n != 0) {
+			ValPtr ind = new RightValue(NDto1D(initDim, initCur));
+			newAssign(currentVar, ind, val);
+		} else
 			newAssign(currentVar, val);
 		recycleVar(val);
 	} else {
 		int l = ast->valList().size();
 		int p = 0;
 		int remain = 1;
-		for (int i = m + 1; i < n; i++)remain *= dimensions[i];
-		for (int i = 0; i < dimensions[m]; i++) {
-			temp.push_back(i);
+		for (int i = m + 1; i < n; i++)remain *= initDim[i];
+		for (int i = 0; i < initDim[m]; i++) {
+			initCur.push_back(i);
 			if (p >= l) return NULL;
 			InitValAST *son = (InitValAST *)ast->valList()[p];
 			if (son->value() == NULL) {
 				son->generateIR(*this);
 				p += 1;
-			}
-			else {
+			} else {
 				assert(p + remain <= l);
-				for (int i = 1; i < n - m; i++)temp.push_back(0);
-				int startp = NDto1D(dimensions, temp);
-				for (int i = 1; i < n - m; i++)temp.pop_back();
+				for (int i = 1; i < n - m; i++)initCur.push_back(0);
+				int startp = NDto1D(initDim, initCur);
+				for (int i = 1; i < n - m; i++)initCur.pop_back();
 				for (int j = p; j < p + remain; j++) {
 					ValPtr val = ((InitValAST *)(ast->valList()[j]))->value()->generateIR(*this);
 					int ind = startp + j - p;
@@ -118,7 +120,7 @@ ValPtr EeyoreGenerator::generateOn(InitValAST *ast)
 				}
 				p += remain;
 			}
-			temp.pop_back();
+			initCur.pop_back();
 		}
 	}
 	return NULL;
@@ -226,14 +228,12 @@ ValPtr EeyoreGenerator::generateOn(ContinueAST *ast)
 }
 ValPtr EeyoreGenerator::generateOn(ReturnAST *ast)
 {
-	if(ast->value()) {
+	if (ast->value()) {
 		ValPtr temp = ast->value()->generateIR(*this);
 		recycleVar(temp);
 		currentFunc->newInst(new Return(temp));
-	}
-	else {
+	} else
 		currentFunc->newInst(new Return());
-	}
 	return NULL;
 }
 ValPtr EeyoreGenerator::generateOn(BinaryExpAST *ast)

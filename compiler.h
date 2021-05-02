@@ -11,8 +11,9 @@
 class EeyoreGenerator
 {
 public:
-	EeyoreGenerator(ostream &out): out_(out), symTable(), varInd(0),
-		currentFunc(NULL), getReference(0), labelInd(0), maxTempVar(-1), isConst(0)
+	EeyoreGenerator(ostream &out, bool debug_=false): out_(out), symTable(), varInd(0),
+		currentFunc(NULL), getReference(0), labelInd(0), maxTempVar(-1), isConst(0),
+		debug(debug_)
 	{
 		_init_lib_funcs();
 	}
@@ -117,6 +118,7 @@ public:
 private:
 	ostream &out_;
 	Program prog;
+	bool debug;
 
 	// Variable and label informations
 	NestedTrie<ValPtr> symTable;
@@ -130,6 +132,7 @@ private:
 	Function *currentFunc;
 	ValPtr currentVar, arrayName, arrayInd;
 	vector<int> temp, dimensions;
+	vector<int> initDim, initCur;
 	int tempInt;
 	bool getReference;
 	vector<LabelPtr> labelLoop, labelEnd;

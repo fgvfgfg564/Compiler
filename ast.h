@@ -45,6 +45,28 @@ public:
 	};
 };
 
+class IntAST: public BaseAST
+{
+public:
+	IntAST(int value): value_(value) {}
+	int &value()
+	{
+		return value_;
+	}
+	void debug (int depth) override
+	{
+		printTab(depth);
+		printf("<IntConst>\n");
+		printTab(depth + 1);
+		cout << "Value: " << value_ << '\n';
+		printTab(depth);
+		printf("</IntConst>\n");
+	}
+	ValPtr generateIR(EeyoreGenerator &gen) override;
+private:
+	int value_;
+};
+
 typedef BaseAST *ASTPtr;
 typedef vector<ASTPtr> ASTList;
 
@@ -608,7 +630,16 @@ class FuncCallAST: public BaseAST
 {
 public:
 	FuncCallAST(string &name, ASTList &args):
-		name_(name), args_(args) {}
+		name_(name), args_(args) {
+			if(name_ == "starttime") {
+				name_ = "_sysy_starttime";
+				args_.push_back(new IntAST(0));
+			}
+			if(name_ == "stoptime") {
+				name_ = "_sysy_stoptime";
+				args_.push_back(new IntAST(0));
+			}
+		}
 	string &name() override
 	{
 		return name_;
@@ -689,28 +720,6 @@ public:
 	ValPtr generateIR(EeyoreGenerator &gen) override;
 private:
 	string name_;
-};
-
-class IntAST: public BaseAST
-{
-public:
-	IntAST(int value): value_(value) {}
-	int &value()
-	{
-		return value_;
-	}
-	void debug (int depth) override
-	{
-		printTab(depth);
-		printf("<IntConst>\n");
-		printTab(depth + 1);
-		cout << "Value: " << value_ << '\n';
-		printTab(depth);
-		printf("</IntConst>\n");
-	}
-	ValPtr generateIR(EeyoreGenerator &gen) override;
-private:
-	int value_;
 };
 
 class BTypeAST: public BaseAST
