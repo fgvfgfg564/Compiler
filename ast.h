@@ -613,12 +613,12 @@ public:
 	void debug (int depth) override
 	{
 		printTab(depth);
-		printf("<BinaryOp op=%d>\n", op_);
+		printf("<UnaryOp op=%d>\n", op_);
 		printTab(depth + 1);
 		printf("opr:\n");
 		opr_->debug(depth + 1);
 		printTab(depth);
-		printf("</BinaryOp>\n");
+		printf("</UnaryOp>\n");
 	}
 	ValPtr generateIR(EeyoreGenerator &gen) override;
 private:
