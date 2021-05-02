@@ -335,7 +335,10 @@ ValPtr EeyoreGenerator::generateOn(LValAST *ast)
 	if (ast->dimensions().size() == 0) return eeName;
 	else {
 		dimensions = arraySize.getItem(ast->name());
+		bool temp = getReference;
+		getReference = false;
 		ValPtr ind = generateOn(ast->dimensions());
+		getReference = temp;
 		recycleVar(ind);
 		ValPtr ptr;
 		if (ind->type == EE_CONST) {
