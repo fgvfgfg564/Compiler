@@ -21,7 +21,7 @@ lex.yy.c: source.l
 test:
 	flex -o lex.yy.cpp source.l
 	bison -d -o source.tab.cpp source.y
-	g++ -Wno-register -O2 -lm -std=c++17 *.c *.cpp -o compiler -Idirs
+	g++ -Wno-register -O2 -lm -std=c++17 *.cpp -o compiler -Idirs
 
 clean:
 	rm -f main lex.yy.* *.tab.* source.tab.o parser main 
