@@ -18,5 +18,10 @@ source.tab.c source.tab.h: source.y
 lex.yy.c: source.l
 	$(LEX) source.l
 
+test:
+	flex -o lex.yy.c source.l
+	bison -d -o source.tab.c source.y
+	g++ -Wno-register -O2 -lm -std=c++17 *.c *.cpp -o compiler -Idirs
+
 clean:
-	rm -f main lex.yy.* source.tab.* source.tab.o parser main 
+	rm -f main lex.yy.* *.tab.* source.tab.o parser main 
