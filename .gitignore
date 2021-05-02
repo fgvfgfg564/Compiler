@@ -1,0 +1,6 @@
+test.*
+main.dSYM
+lex.yy.c
+SysY.output
+SysY.tab.c
+SysY.tab.h
