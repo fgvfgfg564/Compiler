@@ -15,11 +15,18 @@ int NDto1D(vector<int> &dimensions, vector<int> &index)
 	return res;
 }
 
+void EeyoreGenerator::compile(BaseAST *ast)
+{
+	ast->generateIR(*this);
+	prog.print(out_);
+	assert(tempVar.isClean());
+}
+
 ValPtr EeyoreGenerator::generateOn(CompUnitAST *ast)
 {
 	for (auto u : ast->nodeList()) u->generateIR(*this);
-	prog.print(out_);
-	assert(tempVar.isClean());
+	for (int i = 0; i <= maxTempVar; i++)
+		prog.newDecl(new RightValue(i, EE_TEMP));
 	return NULL;
 }
 
@@ -78,9 +85,8 @@ ValPtr EeyoreGenerator::generateOn(InitValAST *ast)
 		ValPtr val = ast->value()->generateIR(*this);
 		ValPtr ind = new RightValue(NDto1D(dimensions, temp));
 		if (n != 0)newAssign(currentVar, ind, val);
-		else {
+		else
 			newAssign(currentVar, val);
-		}
 		recycleVar(val);
 	} else {
 		int l = ast->valList().size();
@@ -158,9 +164,10 @@ ValPtr EeyoreGenerator::generateOn(AssignStatAST *ast)
 	getReference = false;
 	ValPtr expptr = ast->exp()->generateIR(*this);
 	if (lvalptr) {
-		if (expptr->type == EE_TEMP)
+		if (expptr->type == EE_TEMP) {
+			ast->debug(0);
 			assert(currentFunc->changeLastAssign(expptr, lvalptr));
-		else
+		} else
 			currentFunc->newInst(new Assign(lvalptr, expptr));
 	} else {
 		currentFunc->newInst(new AssignArray (arrayName, arrayInd, expptr));
@@ -172,7 +179,7 @@ ValPtr EeyoreGenerator::generateOn(AssignStatAST *ast)
 ValPtr EeyoreGenerator::generateOn(IfStatAST *ast)
 {
 	ValPtr cond = ast->cond()->generateIR(*this);
-	if(ast->elseStmt()) {
+	if (ast->elseStmt()) {
 		LabelPtr labelElse = new Label(labelInd++), labelEnd = new Label(labelInd++);
 		currentFunc->newInst(new IfGoto(cond, EE_EQ, new RightValue(0), labelElse));
 		ast->thenStmt()->generateIR(*this);
@@ -180,8 +187,7 @@ ValPtr EeyoreGenerator::generateOn(IfStatAST *ast)
 		currentFunc->newInst(labelElse);
 		ast->elseStmt()->generateIR(*this);
 		currentFunc->newInst(labelEnd);
-	}
-	else {
+	} else {
 		LabelPtr labelEnd = new Label(labelInd++);
 		currentFunc->newInst(new IfGoto(cond, EE_EQ, new RightValue(0), labelEnd));
 		ast->thenStmt()->generateIR(*this);
@@ -316,7 +322,7 @@ ValPtr EeyoreGenerator::generateOn(LValAST *ast)
 			recycleVar(ptr);
 			ValPtr ptr2 = newVar();
 			currentFunc->newInst(new ArrayAssign(ptr2, eeName, ptr));
-			return ptr;
+			return ptr2;
 		} else {
 			arrayName = eeName;
 			arrayInd = ptr;

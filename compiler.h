@@ -12,7 +12,7 @@ class EeyoreGenerator
 {
 public:
 	EeyoreGenerator(ostream &out): out_(out), symTable(), varInd(0),
-		currentFunc(NULL), getReference(0), labelInd(0)
+		currentFunc(NULL), getReference(0), labelInd(0), maxTempVar(-1)
 	{
 		_init_lib_funcs();
 	}
@@ -41,6 +41,8 @@ public:
 	ValPtr generateOn(IntAST *ast);
 	ValPtr generateOn(BTypeAST *ast);
 	ValPtr generateOn(ASTList list);
+
+	void compile(BaseAST *ast);
 
 	void newEnvironment()
 	{
@@ -77,7 +79,9 @@ public:
 	}
 	ValPtr newVar()
 	{
-		return new RightValue(tempVar.get(), EE_TEMP);
+		int newvar = tempVar.get();
+		if (newvar > maxTempVar) maxTempVar = newvar;
+		return new RightValue(newvar, EE_TEMP);
 	}
 	void recycleVar(ValPtr ptr)
 	{
@@ -88,6 +92,10 @@ public:
 	{
 		vector<int> res;
 		for (auto u : list) {
+			if (u == NULL) {
+				res.push_back(0);
+				continue;
+			}
 			ValPtr ptr = u->generateIR((*this));
 			assert(ptr != NULL && ptr->type == EE_CONST);
 			res.push_back(ptr->val);
@@ -117,7 +125,7 @@ private:
 	Function *currentFunc;
 	ValPtr currentVar, arrayName, arrayInd;
 	Program prog;
-	int varInd, labelInd;
+	int varInd, labelInd, maxTempVar;
 	vector<int> temp, dimensions;
 	int tempInt;
 	bool getReference;

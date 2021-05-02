@@ -353,32 +353,34 @@ public:
 class Program: public BaseIR
 {
 public:
-	IRPtrList insts;
+	IRPtrList decls, inits, funcs;
 	Program () {}
 	void newDecl(ValPtr name, uint len = 0)
 	{
 		Id *p = new Id(name, len);
-		insts.push_back(p);
+		decls.push_back(p);
 	}
 	void newInit(ValPtr name, int num)
 	{
 		Init *p = new Init(name, num);
-		insts.push_back(p);
+		inits.push_back(p);
 	}
 	void newInit(ValPtr name, int ind, int num)
 	{
 		Init *p = new Init(name, ind, num);
-		insts.push_back(p);
+		inits.push_back(p);
 	}
 	Function *newFunc(string name, int nFParam)
 	{
 		Function *p = new Function(name, nFParam);
-		insts.push_back(p);
+		funcs.push_back(p);
 		return p;
 	}
 	void print(ostream &out) const override
 	{
-		for (auto u : insts) out << u;
+		for (auto u : decls) out << u;
+		for (auto u : inits) out << u;
+		for (auto u : funcs) out << u;
 	}
 };
 

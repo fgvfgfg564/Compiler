@@ -441,9 +441,11 @@ public:
 		printTab(depth + 1);
 		printf("Then:\n");
 		thenStmt_->debug(depth + 1);
-		printTab(depth + 1);
-		printf("Else:\n");
-		elseStmt_->debug(depth + 1);
+		if(elseStmt_){
+			printTab(depth + 1);
+			printf("Else:\n");
+			elseStmt_->debug(depth + 1);
+		}
 		printTab(depth);
 		printf("</If>\n");
 	}
