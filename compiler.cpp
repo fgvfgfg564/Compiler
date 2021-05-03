@@ -265,13 +265,13 @@ ValPtr EeyoreGenerator::generateOn(BinaryExpAST *ast)
 		default: assert(0);
 	}
 	if (op == EE_AND) {
+		ValPtr ptr = newVar();
 		ValPtr opr1 = ast->opr1()->generateIR(*this);
 		LabelPtr fix = new Label(labelInd++), end = new Label(labelInd++);
 		currentFunc->newInst(new IfGoto(opr1, EE_EQ, new RightValue(0), fix));
 		recycleVar(opr1);
 		ValPtr opr2 = ast->opr2()->generateIR(*this);
 		recycleVar(opr2);
-		ValPtr ptr = newVar();
 		currentFunc->newInst(new Assign(ptr, opr2));
 		currentFunc->newInst(new Goto(end));
 		currentFunc->newInst(fix);
@@ -279,13 +279,13 @@ ValPtr EeyoreGenerator::generateOn(BinaryExpAST *ast)
 		currentFunc->newInst(end);
 		return ptr;
 	} else if (op == EE_OR) {
+		ValPtr ptr = newVar();
 		ValPtr opr1 = ast->opr1()->generateIR(*this);
 		LabelPtr fix = new Label(labelInd++), end = new Label(labelInd++);
 		currentFunc->newInst(new IfGoto(opr1, EE_EQ, new RightValue(1), fix));
 		recycleVar(opr1);
 		ValPtr opr2 = ast->opr2()->generateIR(*this);
 		recycleVar(opr2);
-		ValPtr ptr = newVar();
 		currentFunc->newInst(new Assign(ptr, opr2));
 		currentFunc->newInst(new Goto(end));
 		currentFunc->newInst(fix);
