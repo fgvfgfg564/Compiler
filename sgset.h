@@ -22,7 +22,7 @@ public:
 	{
 		if (S.empty()) {
 			for (int i = PRESET_SIZE;; i++) {
-				if (back.find(i) != back.end()) {
+				if (back.find(i) == back.end()) {
 					back.insert(i);
 					return i;
 				}
