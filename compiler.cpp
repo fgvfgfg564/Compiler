@@ -42,6 +42,7 @@ ValPtr EeyoreGenerator::generateOn(ConstDefAST *ast)
 {
 	if (ast->dimensions().size() == 0) {
 		ValPtr ptr = ((ConstInitValAST *)ast->initValue())->value()->generateIR(*this);
+		assert(ptr->type == EE_CONST);
 		symTable.insert(ast->name(), ptr);
 		return NULL;
 	} else {
