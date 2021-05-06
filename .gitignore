@@ -1,7 +1,7 @@
 test.*
 main.dSYM
-source.l
-source.y
+lex*
+source.tab.*
 functional_test
 *.py
 temp
