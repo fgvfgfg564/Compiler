@@ -1,7 +1,6 @@
 #ifndef _GLOBALS_H_
 #define _GLOBALS_H_
 
-#include <cassert>
 #include <cstdlib>
 #include <cstdio>
 #include <cstring>
@@ -56,5 +55,6 @@ extern "C" {
 }
 
 #define CERR cerr
+#define assert(x) 
 
 #endif

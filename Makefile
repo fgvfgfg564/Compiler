@@ -1,6 +1,6 @@
 LEX = flex
 YACC = bison
-CC = g++ -std=c++17 -Wno-deprecated-register -Wno-inconsistent-missing-override
+CC = g++ -W -std=c++17 -Wno-deprecated-register -Wno-inconsistent-missing-override
 OBJECT = main 
 
 
