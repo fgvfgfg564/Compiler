@@ -20,7 +20,7 @@ void EeyoreGenerator::compile(BaseAST *ast)
 	if (debug) ast->debug(0);
 	ast->generateIR(*this);
 	prog.print(out_);
-	assert(tempVar.isClean());
+	//assert(tempVar.isClean());
 }
 
 ValPtr EeyoreGenerator::generateOn(CompUnitAST *ast)
