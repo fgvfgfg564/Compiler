@@ -178,12 +178,8 @@ ValPtr EeyoreGenerator::generateOn(AssignStatAST *ast)
 	getReference = false;
 	ValPtr expptr = ast->exp()->generateIR(*this);
 	if (lvalptr) {
-		if (expptr->type == EE_TEMP) {
-			if (!currentFunc->changeLastAssign(expptr, lvalptr))
-				currentFunc->newInst(new Assign(lvalptr, expptr));
-			else
-				currentFunc->newInst(new Assign(lvalptr, expptr));
-		}
+		if (expptr->type != EE_TEMP || !currentFunc->changeLastAssign(expptr, lvalptr))
+			currentFunc->newInst(new Assign(lvalptr, expptr));
 	} else {
 		currentFunc->newInst(new AssignArray (arrayName, arrayInd, expptr));
 		recycleVar(arrayInd);
