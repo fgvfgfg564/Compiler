@@ -79,7 +79,6 @@ public:
 	}
 	void recycleVar(ValPtr ptr)
 	{
-		return;
 		if (ptr == NULL) return;
 		if (ptr->type == EE_TEMP) tempVar.recover(ptr->val);
 	}

@@ -20,14 +20,11 @@ void EeyoreGenerator::compile(BaseAST *ast)
 	if (debug) ast->debug(0);
 	ast->generateIR(*this);
 	prog.print(out_);
-	//assert(tempVar.isClean());
 }
 
 ValPtr EeyoreGenerator::generateOn(CompUnitAST *ast)
 {
 	for (auto u : ast->nodeList()) u->generateIR(*this);
-	for (int i = 0; i <= maxTempVar; i++)
-		prog.newDecl(new RightValue(i, EE_TEMP));
 	return NULL;
 }
 
@@ -149,6 +146,10 @@ ValPtr EeyoreGenerator::generateOn(FunctionAST *ast)
 	else
 		currentFunc->newInst(new Return(0));
 	outer();
+	assert(tempVar.isClean());
+	for (int i = 0; i <= maxTempVar; i++)
+		currentFunc->newDecl(new RightValue(i, EE_TEMP));
+	maxTempVar = 0;
 	currentFunc = mainFunc;
 	global = true;
 	return NULL;
