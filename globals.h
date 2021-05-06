@@ -55,6 +55,5 @@ extern "C" {
 }
 
 #define CERR cerr
-#define assert(x) 
 
 #endif
