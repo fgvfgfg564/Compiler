@@ -262,7 +262,21 @@ ValPtr EeyoreGenerator::generateOn(BinaryExpAST *ast)
 		case NEQ: op = EE_NEQ; break;
 		default: assert(0);
 	}
-	if (op == EE_AND) {
+	if (op == EE_MOD) {
+		ValPtr opr1 = ast->opr1()->generateIR(*this);
+		ValPtr opr2 = ast->opr2()->generateIR(*this);
+		recycleVar(opr1);
+		recycleVar(opr2);
+		if (opr1->type == EE_CONST && opr2->type == EE_CONST)
+			return new RightValue(eval(op, opr1->val, opr2->val));
+		else {
+			ValPtr ptr = newVar();
+			currentFunc->newInst(new BinaryAssign(ptr, opr1, EE_DIV, opr2));
+			currentFunc->newInst(new BinaryAssign(ptr, ptr, EE_MUL, opr2));
+			currentFunc->newInst(new BinaryAssign(ptr, opr1, EE_SUB, ptr));
+			return ptr;
+		}
+	} else if (op == EE_AND) {
 		ValPtr ptr = newVar();
 		ValPtr opr1 = ast->opr1()->generateIR(*this);
 		LabelPtr fix = new Label(labelInd++), end = new Label(labelInd++);

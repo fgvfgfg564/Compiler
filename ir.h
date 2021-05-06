@@ -10,7 +10,7 @@ enum EE_Op {
 	EE_LE, EE_GE, EE_LT, EE_GT, EE_EQ, EE_NEQ
 };
 
-const string op2str[] = {"+", "-", "*", "/", "\%", "-", "&&", "||", "!", "<=", ">=", "<", ">", "==", "!="};
+const string op2str[] = {"+", "-", "*", "/", "%", "-", "&&", "||", "!", "<=", ">=", "<", ">", "==", "!="};
 #define toStr(x) op2str[(int)(x)]
 
 int eval( EE_Op op, int opr1, int opr2 = 0);
