@@ -2,3 +2,8 @@ test.*
 main.dSYM
 source.l
 source.y
+functional_test
+*.py
+temp
+test
+minivm
