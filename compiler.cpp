@@ -133,9 +133,8 @@ ValPtr EeyoreGenerator::generateOn(FunctionAST *ast)
 	global = false;
 	if (ast->name() != "main")
 		currentFunc = prog.newFunc(ast->name(), ast->fParams().size());
-	else {
+	else
 		prog.funcs.push_back(mainFunc);
-	}
 	assert(!hasReturnValue.find(ast->name()));
 	hasReturnValue.insert(ast->name(), ast->funcType() == INT);
 	newEnvironment();
@@ -179,11 +178,12 @@ ValPtr EeyoreGenerator::generateOn(AssignStatAST *ast)
 	getReference = false;
 	ValPtr expptr = ast->exp()->generateIR(*this);
 	if (lvalptr) {
-		if (expptr->type == EE_TEMP)
-			assert(currentFunc->changeLastAssign(expptr, lvalptr));
-
-		else
-			currentFunc->newInst(new Assign(lvalptr, expptr));
+		if (expptr->type == EE_TEMP) {
+			if (!currentFunc->changeLastAssign(expptr, lvalptr))
+				currentFunc->newInst(new Assign(lvalptr, expptr));
+			else
+				currentFunc->newInst(new Assign(lvalptr, expptr));
+		}
 	} else {
 		currentFunc->newInst(new AssignArray (arrayName, arrayInd, expptr));
 		recycleVar(arrayInd);
